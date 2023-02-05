@@ -4,41 +4,69 @@ class Character {
     this.name = config.name
     this.position = config.position
     this.speed = config.speed || 5
-    this.jumpSpeed = config.jumpSpeed || 20
-    this.dimensions = config.dimensions
+    this.jumpSpeed = config.jumpSpeed || 15
+    this.width = config.width
+    this.height = config.height
+    this.dy = config.dy || 0
+    this.dx = config.dx || 0
+    this.isJumping = false
 
-    this.image = new Image();
-    this.image.src = config.imageSrc;
+
+    // this.image = new Image();
+    // this.image.src = config.imageSrc;
   }
 
-  render(context) {
-    context.drawImage(this.image, this.position.x, this.position.y);
+  jump() {
+    this.isJumping = true
+    this.isJumping
+    this.dy -= this.jumpSpeed
+  }
+
+  render(ctx) {
+    ctx.drawImage(this.image, this.position.x, this.position.y);
   }
   draw(ctx){
     ctx.fillStyle = 'crimson';
     ctx.fillRect(
       this.position.x, 
       this.position.y, 
-      this.dimensions.width, 
-      this.dimensions.height
+      this.width, 
+      this.height
     );
   }
 
-  update(){
-    this.draw()
-    if (this.x + this.radius + this.dx > canvas.width || this.x - this.radius + this.dx < 0) {
-        this.dx = -this.dx  //* 0.9
+  update(ctx){
+    this.draw(ctx)
+
+    if (this.isJumping && this.dy == 0) {
+      this.isJumping = false
     }
-    if (this.position.y + this.dimensions.height + this.dy > canvas.height || this.position.y - this.dimensions.height + this.dy < 0) {
-        this.dy = -this.dy //* 0.9
-        this.dx = this.dx  //* 0.98
+
+    if (this.position.y + this.height + this.dy > platform.position.y &&
+      this.position.y + this.height + this.dy < platform.position.y + platform.height &&
+      this.position.x + this.dx < platform.position.x + platform.width &&
+      this.position.x + this.width + this.dx > platform.position.x
+    ) {
+      this.dy = 0
     } else {
-        this.dy += gravity
+      this.dy += gravity
     }
-    this.x += this.dx
-    this.y += this.dy
+    
+    this.position.y += this.dy
   }
 }
+
+
+const player = new Character({
+  position: {
+    x: 300,
+    y: 300,
+  },
+  width: 50,
+  height: 100,
+  speed: 5
+});
+
 
 // class Player extends Character {
 
