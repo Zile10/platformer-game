@@ -1,7 +1,6 @@
-class Enemy {
+class Enemy extends Character {
   constructor(config) {
-      this.position = config.position;
-      this.image = new Image();
-      this.image.src = config.imageSrc;
+    super(config);
+    
   }
 }
