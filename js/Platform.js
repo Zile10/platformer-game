@@ -1,63 +1,52 @@
-const platform = {
+class Platform {
+  constructor(config) {
+    this.position = config.position
+    this.width = config.width;
+    this.height = config.height;
+  }
+
+  draw(ctx){
+    ctx.fillStyle = 'darkcyan'
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
+  }
+}
+
+const platforms = []
+
+const platform0 = new Platform({
+  position: {
+    x: -800,
+    y: 475
+  },
+  width: 1000,
+  height: 25,
+})
+const platform1 = new Platform({
   position: {
     x: 200,
     y: 500
   },
   width: 1000,
   height: 25,
-}
-
-const platform2 = {
+})
+const platform2 = new Platform({
   position: {
-    x: 225,
-    y: 1500
+    x: 1200,
+    y: 525
   },
   width: 800,
   height: 25,
-}
-
-const platforms = [
-  {
-    position: {
-      x: 200,
-      y: 500
-    },
-    width: 1000,
-    height: 25,
+})
+const platform3 = new Platform({
+  position: {
+    x: 2000,
+    y: 500
   },
-  {
-    position: {
-      x: 225,
-      y: 1500
-    },
-    width: 800,
-    height: 25,
-  }
+  width: 1000,
+  height: 25,
+})
 
-]
-
-// function drawPlatforms() {
-//   ctx.fillStyle = 'darkcyan'
-//   platforms.forEach(platform => {
-//     ctx.fillRect(platform.position.x, platform.position.y, platform.width, platform.height)
-//   })
-// }
-
-function drawPlatforms() {
-  ctx.fillStyle = 'darkcyan'
-  ctx.fillRect(platform.position.x, platform.position.y, platform.width, platform.height)
-}
-
-class Platform {
-  constructor(config) {
-    this.position.x = config.x;
-    this.position.y = config.y;
-    this.width = config.width;
-    this.height = config.height;
-  }
-
-  draw(){
-    ctx.fillStyle = 'darkcyan'
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
-  }
-}
+platforms.push(platform0)
+platforms.push(platform1)
+platforms.push(platform2)
+platforms.push(platform3)

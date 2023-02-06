@@ -10,7 +10,7 @@ class Character {
     this.dy = config.dy || 0
     this.dx = config.dx || 0
     this.isJumping = false
-
+    this.canStand = 0
 
     // this.image = new Image();
     // this.image.src = config.imageSrc;
@@ -41,12 +41,14 @@ class Character {
     if (this.isJumping && this.dy == 0) {
       this.isJumping = false
     }
-
-    if (this.position.y + this.height + this.dy > platform.position.y &&
-      this.position.y + this.height + this.dy < platform.position.y + platform.height &&
-      this.position.x + this.dx < platform.position.x + platform.width &&
-      this.position.x + this.width + this.dx > platform.position.x
-    ) {
+    this.canStand = platforms.some(platform => 
+      this.position.y + this.height + this.dy > platform.position.y 
+      && this.position.y + this.height + this.dy < platform.position.y + platform.height 
+      && this.position.x + this.dx < platform.position.x + platform.width 
+      && this.position.x + this.width + this.dx > platform.position.x
+    );
+    console.log(this.canStand);
+    if (this.canStand) {
       this.dy = 0
     } else {
       this.dy += gravity
