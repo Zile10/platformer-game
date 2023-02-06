@@ -17,6 +17,7 @@ function animate(){
   ctx.clearRect(0, 0, canvas.width, canvas.height); // clear the canvas before render
 
   player.update(ctx)
+  enemy.update(ctx)
 
   platforms.forEach(platform => {
     platform.draw(ctx)
@@ -30,6 +31,7 @@ function animate(){
       platforms.forEach(platform => {
         platform.position.x += player.speed
       })
+      enemy.position.x += player.speed
     } else player.position.x -= player.speed
   } else if (keys.s.pressed && lastKey === 's') {
       // player.position.y -= player.speed
@@ -38,6 +40,7 @@ function animate(){
       platforms.forEach(platform => {
         platform.position.x -= player.speed     
       });
+      enemy.position.x -= player.speed
     } else player.position.x += player.speed
   }
 

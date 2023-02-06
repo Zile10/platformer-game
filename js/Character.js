@@ -47,7 +47,6 @@ class Character {
       && this.position.x + this.dx < platform.position.x + platform.width 
       && this.position.x + this.width + this.dx > platform.position.x
     );
-    console.log(this.canStand);
     if (this.canStand) {
       this.dy = 0
     } else {

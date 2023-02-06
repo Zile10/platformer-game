@@ -4,3 +4,13 @@ class Enemy extends Character {
     
   }
 }
+
+const enemy = new Enemy({
+  position: {
+    x: 600,
+    y: 300,
+  },
+  width: 50,
+  height: 100,
+  speed: 5
+});
