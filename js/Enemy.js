@@ -3,6 +3,11 @@ class Enemy extends Character {
     super(config);
     
   }
+  update(ctx){
+    this.draw(ctx)
+    this.gravitate()
+    this.move()
+  }
 }
 
 const enemy = new Enemy({
