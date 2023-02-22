@@ -6,6 +6,7 @@ class Map {
     this.foreground = config.foreground;
     this.platforms = [];
     this.enemies = [];
+    this.gravity = 0.98
   }
 
   generatePlatforms(levelData) {
@@ -18,5 +19,9 @@ class Map {
     levelData.enemies.forEach(enemy => {
       this.enemies.push(new Enemy(enemy.x, enemy.y, enemy.imageSrc));
     });
+  }
+
+  gravity(){
+    
   }
 }

@@ -1,12 +1,6 @@
 class Enemy extends Character {
   constructor(config) {
-    super(config);
-    
-  }
-  update(ctx){
-    this.draw(ctx)
-    this.gravitate()
-    this.move()
+    super(config); 
   }
 }
 

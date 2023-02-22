@@ -10,14 +10,7 @@ class Character {
     this.dy = config.dy || 0
     this.dx = config.dx || 0
     this.isJumping = false
-    this.canStand = 0
-    this.canWalk = false
-
-
-    // this.image = new Image();
-    // this.image.src = config.imageSrc;
   }
-
 
   draw(ctx){
     ctx.fillStyle = 'crimson';
@@ -29,52 +22,73 @@ class Character {
     );
   }
 
-  gravitate() {
-    if (this.isJumping && this.dy == 0) {
-      this.isJumping = false
-    }
-    this.canStand = platforms.some(platform => 
-      this.position.y + this.height + this.dy > platform.position.y 
-      && this.position.y + this.height + this.dy < platform.position.y + platform.height 
-      && this.position.x + this.dx < platform.position.x + platform.width 
-      && this.position.x + this.width + this.dx > platform.position.x
-    );
-
-    if (this.canStand) {
-      this.dy = 0
-    } else {
-      this.dy += gravity
+  detectPlatform(direction) {
+    switch (direction) {
+      case 'left':
+        return platforms.some(platform => {
+          return this.position.x + this.width > platform.position.x 
+          && this.position.x - this.speed < platform.position.x + platform.width 
+          && this.position.y + this.height + this.dy - 20 > platform.position.y
+          && this.position.y + this.height + this.dy - 20 < platform.position.y + platform.height
+        })
+        break;
+      case 'right':
+        return platforms.some(platform => {
+          return this.position.x + this.width + this.speed > platform.position.x 
+          && this.position.x < platform.position.x + platform.width 
+          && this.position.y + this.height + this.dy - 20 > platform.position.y
+          && this.position.y + this.height + this.dy - 20 < platform.position.y + platform.height
+        })
+        break;
+      case 'down':
+        return platforms.some(platform => {
+          return this.position.x + this.width + this.dx > platform.position.x 
+          && this.position.x + this.dx < platform.position.x + platform.width 
+          && this.position.y + this.height + this.dy > platform.position.y
+          && this.position.y + this.height + this.dy < platform.position.y + platform.height
+        })
+        break;
+      default:
+        break;
     }
   }
 
-  testWalls() {
-    this.canWalk = platforms.some(platform =>
-      this.position.x - this.dx > platform.position.x
-      && this.position.x + this.width + this.dx < platform.position.x + platform.width
-      && this.position.y + this.height + this.dy > platform.position.y 
-      && this.position.y + this.height + this.dy < platform.position.y + platform.height 
-    );
-
-    if (!this.canWalk) {
-      this.dx = -this.dx
+  moveLeft() {
+    if (!this.detectPlatform('left')) {
+      this.dx = -this.speed
     }
   }
-
-  move(){
-    this.position.x += this.dx
-    this.position.y += this.dy
+  moveRight() {
+    if (!this.detectPlatform('right')) {
+      this.dx = this.speed
+    }
   }
-
   jump() {
     this.isJumping = true
-    this.isJumping
-    this.dy -= this.jumpSpeed
+    this.dy = -this.jumpSpeed
   }
 
+  update(ctx){
+    this.draw(ctx)
+
+    if ((this.position.x < 0.35 * canvas.width && this.dx < 0) || (this.position.x + this.width > 0.5 * canvas.width && this.dx > 0)) {
+      platforms.forEach(platform => {
+        platform.position.x -= this.dx
+      });
+      enemy.position.x -= this.dx
+    } else this.position.x += this.dx
+    this.position.y += this.dy
+
+    if (this.detectPlatform('down')) {
+      if (this.dy > 0) {
+        this.dy = 0
+      }
+    } else this.dy += gravity;
+
+    this.dx = 0
+
+    if (this.dy == 0) {
+      this.isJumping = false
+    }
+  }
 }
-
-
-
-// class Player extends Character {
-
-// }
